@@ -23,7 +23,7 @@ if (localStorage.getItem("myLibrary") !== null) {
 }
 
 // create card for displaying the books
-const createCard = function () {
+const createCard = function (bookObj) {
   const book = document.createElement("div");
   book.classList.add("book");
 
@@ -33,15 +33,15 @@ const createCard = function () {
   information.classList.add("information");
 
   const heading = document.createElement("h2");
-  heading.innerText = "The Bobbit";
+  heading.innerText = bookObj.title;
 
   const author = document.createElement("p");
   author.classList.add("author");
-  author.innerText = "JRR Tolkien";
+  author.innerText = "by " + bookObj.author;
 
   const numPages = document.createElement("p");
   numPages.classList.add("numPages");
-  numPages.innerText = `295`;
+  numPages.innerText = `It is ${bookObj.numPages} pages long`;
 
   // footer section
 
@@ -71,6 +71,15 @@ const createCard = function () {
   return book;
 };
 
+// on page load, create and display existing books
+document.addEventListener("DOMContentLoaded", function () {
+  const booksList = document.querySelector("#booksList");
+  for (let book of myLibrary) {
+    const bookCard = createCard(book);
+    booksList.appendChild(bookCard);
+  }
+});
+
 // new book form controls
 const newBookForm = document.querySelector("#newBookForm");
 newBookForm.addEventListener("submit", function (e) {
@@ -79,13 +88,12 @@ newBookForm.addEventListener("submit", function (e) {
   const title = e.target[0].value;
   const author = e.target[1].value;
   const numPages = e.target[2].value;
-  // if (!bookExists(title)) {
-  //   addNewBook(title, author, numPages);
-  //   clearForm();
-  // } else {
-  //   alert("You've already entered this book");
-  // }
-  addNewBook(title, author, numPages);
+  if (!bookExists(title)) {
+    addNewBook(title, author, numPages);
+    clearForm();
+  } else {
+    alert("You've already entered this book");
+  }
   clearForm();
 });
 
@@ -103,7 +111,13 @@ const clearForm = function () {
 const addNewBook = function (title, author, numPages) {
   const newBook = new Book(title, author, numPages);
 
+  addToList(newBook);
   addBookToLibrary(newBook);
+};
+
+const addToList = function (newBook) {
+  const bookCard = createCard(newBook);
+  booksList.appendChild(bookCard);
 };
 
 const addBookToLibrary = function (book) {
