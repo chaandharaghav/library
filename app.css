@@ -124,12 +124,12 @@
   gap: 5px;
 }
 
-#isRead,
-#removeBook {
+.isRead,
+.removeBook {
   border-radius: 14px;
 }
 
-#isRead:hover {
+.isRead:hover {
   background-color: hsl(165, 59%, 49%);
 }
 
@@ -140,10 +140,10 @@
   background-color: hsl(175, 68%, 56%);
 }
 
-#removeBook {
+.removeBook {
   background-color: hsl(9, 95%, 77%);
 }
-#removeBook:hover {
+.removeBook:hover {
   background-color: hsl(9, 95%, 65%);
 }
 
