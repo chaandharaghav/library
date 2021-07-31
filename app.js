@@ -56,8 +56,14 @@ const createCard = function (bookObj) {
   footer.classList.add("footer");
 
   const isRead = document.createElement("button");
-  isRead.classList.add("isRead", "complete");
-  isRead.innerText = "Completed";
+  isRead.classList.add("isRead");
+  if (bookObj.completed) {
+    isRead.innerText = "Completed";
+    isRead.classList.add("complete");
+  } else {
+    isRead.innerText = "Incomplete";
+    isRead.classList.add("incomplete");
+  }
 
   const removeBook = document.createElement("button");
   removeBook.classList.add("removeBook");
@@ -142,19 +148,17 @@ const updateLocalStorage = function () {
   localStorage.setItem("myLibrary", stringified);
 };
 
-let isReadBtns = document.querySelectorAll(".isRead");
-const refreshReadBtns = function () {
-  isReadBtns = document.querySelectorAll(".isRead");
-  for (let isReadBtn of isReadBtns) {
-    isReadBtn.addEventListener("click", changeReadStatus);
+// change bookRead status
+booksList.addEventListener("click", function (e) {
+  if (e.target.classList.contains("isRead")) {
+    changeReadStatus(e.target);
+  } else if (e.target.classList.value === "removeBook") {
+    deleteBook(e.target);
   }
-};
+});
 
-// change book read status
-document.addEventListener("DOMContentLoaded", refreshReadBtns);
-
-const changeReadStatus = function (e) {
-  const target = e.target;
+const changeReadStatus = function (target) {
+  // changing dom
   if (target.innerText === "Completed") {
     target.innerText = "Incomplete";
     target.classList.remove("complete");
@@ -164,8 +168,29 @@ const changeReadStatus = function (e) {
     target.classList.remove("incomplete");
     target.classList.add("complete");
   }
+
+  // updating local storage
+  const bookElement = findBookElement(findBookName(target));
+  bookElement.completed = !bookElement.completed;
+  updateLocalStorage();
 };
 
 const findBookName = function (target) {
   return target.parentNode.parentNode.children[0].children[0].innerText;
+};
+
+const deleteBook = function (target) {
+  const bookName = findBookName(target);
+  //removing from dom
+  target.parentNode.parentNode.remove();
+
+  const bookElement = findBookElement(bookName);
+
+  // updating local storage
+  myLibrary.splice(myLibrary.indexOf(bookElement));
+  updateLocalStorage();
+};
+
+const findBookElement = function (bookName) {
+  return myLibrary.find((book) => book.title.trim() === bookName.trim());
 };
