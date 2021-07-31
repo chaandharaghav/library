@@ -22,6 +22,12 @@ if (localStorage.getItem("myLibrary") !== null) {
   }
 }
 
+// if no books are there, display message in booksList section
+if (myLibrary.length === 0) {
+  booksList.innerText = "No books in your library";
+  booksList.classList.add("large-text");
+}
+
 // create card for displaying the books
 const createCard = function (bookObj) {
   const book = document.createElement("div");
@@ -117,9 +123,19 @@ const addNewBook = function (title, author, numPages) {
 
 const addToList = function (newBook) {
   const bookCard = createCard(newBook);
+  if (myLibrary.length === 0) {
+    booksList.innerText = "";
+    booksList.classList.remove("large-text");
+  }
   booksList.appendChild(bookCard);
 };
 
 const addBookToLibrary = function (book) {
   myLibrary.push(book);
+  updateLocalStorage();
+};
+
+const updateLocalStorage = function () {
+  const stringified = JSON.stringify(myLibrary);
+  localStorage.setItem("myLibrary", stringified);
 };

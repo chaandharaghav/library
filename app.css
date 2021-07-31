@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.large-text {
+  font-size: 4em;
+}
+
 /* Header styles */
 
 #header {
@@ -26,6 +30,7 @@
 
 #addNewBook {
   padding: 1rem;
+  min-height: 15vh;
 
   background-color: hsl(0, 0%, 86%);
 }
@@ -64,9 +69,14 @@
 /* Books list section styles */
 
 #booksList {
+  min-height: 70vh;
+
+  color: rgb(75, 73, 73);
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   padding: 3rem;
 }
 
