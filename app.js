@@ -10,6 +10,14 @@ Book.prototype.findNumPages = function () {
   return `It is ${this.numPages} pages long`;
 };
 
+// if no books are there, display message in booksList section
+const bookPresent = function () {
+  if (myLibrary.length === 0) {
+    booksList.innerText = "No books in your library";
+    booksList.classList.add("large-text");
+  }
+};
+
 // retrieve any stored books
 let myLibrary = [];
 if (localStorage.getItem("myLibrary") !== null) {
@@ -21,12 +29,7 @@ if (localStorage.getItem("myLibrary") !== null) {
   } else {
     myLibrary = storedValue;
   }
-}
-
-// if no books are there, display message in booksList section
-if (myLibrary.length === 0) {
-  booksList.innerText = "No books in your library";
-  booksList.classList.add("large-text");
+  bookPresent();
 }
 
 // create card for displaying the books
@@ -187,10 +190,13 @@ const deleteBook = function (target) {
   const bookElement = findBookElement(bookName);
 
   // updating local storage
-  myLibrary.splice(myLibrary.indexOf(bookElement));
+  myLibrary.splice(myLibrary.indexOf(bookElement), 1);
   updateLocalStorage();
+
+  bookPresent();
 };
 
+//finds book in the myLibrary array
 const findBookElement = function (bookName) {
   return myLibrary.find((book) => book.title.trim() === bookName.trim());
 };
