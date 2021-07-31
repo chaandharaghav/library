@@ -1,8 +1,9 @@
 // object constructor
-function Book(title, author, numPages) {
+function Book(title, author, numPages, complete) {
   this.title = title;
   this.author = author;
   this.numPages = numPages;
+  this.completed = complete ?? true;
 }
 
 Book.prototype.findNumPages = function () {
@@ -123,6 +124,7 @@ const addNewBook = function (title, author, numPages) {
 
 const addToList = function (newBook) {
   const bookCard = createCard(newBook);
+  // update booksList section when a book is added
   if (myLibrary.length === 0) {
     booksList.innerText = "";
     booksList.classList.remove("large-text");
@@ -138,4 +140,32 @@ const addBookToLibrary = function (book) {
 const updateLocalStorage = function () {
   const stringified = JSON.stringify(myLibrary);
   localStorage.setItem("myLibrary", stringified);
+};
+
+let isReadBtns = document.querySelectorAll(".isRead");
+const refreshReadBtns = function () {
+  isReadBtns = document.querySelectorAll(".isRead");
+  for (let isReadBtn of isReadBtns) {
+    isReadBtn.addEventListener("click", changeReadStatus);
+  }
+};
+
+// change book read status
+document.addEventListener("DOMContentLoaded", refreshReadBtns);
+
+const changeReadStatus = function (e) {
+  const target = e.target;
+  if (target.innerText === "Completed") {
+    target.innerText = "Incomplete";
+    target.classList.remove("complete");
+    target.classList.add("incomplete");
+  } else {
+    target.innerText = "Completed";
+    target.classList.remove("incomplete");
+    target.classList.add("complete");
+  }
+};
+
+const findBookName = function (target) {
+  return target.parentNode.parentNode.children[0].children[0].innerText;
 };

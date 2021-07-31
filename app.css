@@ -144,7 +144,7 @@
 }
 
 .complete {
-  background-color: hsl(155, 66%, 61%);
+  background-color: hsl(125, 66%, 61%);
 }
 .incomplete {
   background-color: hsl(175, 68%, 56%);
