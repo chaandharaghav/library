@@ -1,14 +1,15 @@
-// object constructor
-function Book(title, author, numPages, complete) {
-  this.title = title;
-  this.author = author;
-  this.numPages = numPages;
-  this.completed = complete ?? true;
-}
+class Book {
+  constructor(title, author, numPages, complete) {
+    this.title = title;
+    this.author = author;
+    this.numPages = numPages;
+    this.complete = complete;
+  }
 
-Book.prototype.findNumPages = function () {
-  return `It is ${this.numPages} pages long`;
-};
+  findNumPages() {
+    return `It is ${this.numPages} pages long`;
+  }
+}
 
 // if no books are there, display message in booksList section
 const bookPresent = function () {
